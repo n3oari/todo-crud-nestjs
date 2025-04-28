@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
         secret: JWT_CONSTANTS.secret,
       });
 
-      //inject the payload into the request object /profile/(user)
+      //inject the payload into the request object 
       request.user = payload;
     } catch {
       throw new UnauthorizedException('Token is invalid');

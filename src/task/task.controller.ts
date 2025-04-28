@@ -6,21 +6,24 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Request
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) { }
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  @UseGuards(AuthGuard)
+  async create(@Request() req  , @Body() createTaskDto: CreateTaskDto) {
+    const user = req.user
+    return this.taskService.create(createTaskDto, user.sub);
   }
-
-
 
   @Get()
   findAll() {

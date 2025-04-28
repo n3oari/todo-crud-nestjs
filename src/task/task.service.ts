@@ -11,10 +11,16 @@ export class TaskService {
   constructor(private readonly em: EntityManager) {}
 
 
-  async create(createTaskDto: CreateTaskDto) : Promise<Task> {
-    const user = this.em.getReference(User, createTaskDto.userId);
+  async create(createTaskDto: CreateTaskDto,userId:number) : Promise<Task> {
+    const user = this.em.getReference(User, userId);
+
+     if (!user) {
+    throw new Error(`User with id ${userId} not found`);
+  }
+
     const task = this.em.create(Task, {
       ...createTaskDto,
+      status: 'pending',
       user
     });
     await this.em.persistAndFlush(task);

@@ -14,7 +14,7 @@ export class UserService {
   async create(userData: CreateUserDto): Promise<User> {
     await this.verifyEmail(userData.email);
 
-    const user = this.em.create(User, userData);
+    const user = this.em.create(User, userData);    
     await this.em.persistAndFlush(user);
     console.log(`user ${user.id} was created successfully`);
     return user;

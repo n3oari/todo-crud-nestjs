@@ -14,12 +14,13 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
-  async login({
+   async login({
     email,
     password,
   }: LoginDto): Promise<{ email: string; token: string }> {
+
     const userVerify = await this.userService.findByEmail(email);
 
     if (!userVerify) {
@@ -35,22 +36,24 @@ export class AuthService {
       throw new UnauthorizedException('wrong password');
     }
 
-    const payload = { email: userVerify.email };
+    const payload = {
+      sub: userVerify.id,
+    }
 
     const token = await this.jwtService.signAsync(payload);
 
-    return {
-      token,
-      email: userVerify.email,
-    };
-  }
+  return {
+    token,
+    email: userVerify.email,
+  };
+}
 
-  async register(registerUser: CreateUserDto) {
-    const hashedPassword = await bcryptjs.hash(registerUser.password, 10);
-    const user = {
-      ...registerUser,
-      password: hashedPassword,
-    };
+async register(registerUser: CreateUserDto) {
+  const hashedPassword = await bcryptjs.hash(registerUser.password, 10);
+  const user = {
+    ...registerUser,
+    password: hashedPassword,
+  };
     return await this.userService.create(user);
   }
 }

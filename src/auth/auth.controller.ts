@@ -26,7 +26,7 @@ export class AuthController {
   async register(@Body() registerUser: CreateUserDto) {
     console.log(`user register successfully ${registerUser}`);
     return this.authService.register(registerUser);
-  }
+}
 
   @Get('profile')
   @UseGuards(AuthGuard)
