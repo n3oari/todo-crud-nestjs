@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  OneToMany,
+  PrimaryKey,
+  Property,
+  Collection,
+} from '@mikro-orm/core';
 import { Task } from 'src/task/entities/task.entity';
 
 @Entity()
@@ -27,6 +33,7 @@ export class User {
   @Property({ defaultRaw: 'CURRENT_TIMESTAMP', onUpdate: () => new Date() })
   updatedAt?: Date = new Date();
 
-  @ManyToOne(() => Task, { nullable: true })
-  task?: Task;
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks = new Collection<Task>(this);
 }

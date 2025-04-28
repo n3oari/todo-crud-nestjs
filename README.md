@@ -6,3 +6,10 @@ A simple Todo App built with NestJS, TypeScript, and MikroORM, using SQLite as t
 - TypeScript - Strictly typed JavaScript for enhanced developer experience.
 - MikroORM - A powerful TypeScript ORM for managing database entities.
 - SQLite - A lightweight, self-contained SQL database engine.
+
+## Actually functions
+
+- Create Users
+- Create Tasks (associated to Users)
+- Register
+- Login with JWT
